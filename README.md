@@ -17,23 +17,52 @@ This proxy solves regional access issues (like those in China) by routing reques
 
 ## Deployment
 
-1. Install Wrangler CLI:
-```bash
-npm install -g wrangler
-```
+You can deploy this Worker using either the Wrangler CLI or the Cloudflare Dashboard.
 
-2. Configure `wrangler.toml`:
-```toml
-account_id = "your-cloudflare-account-id"
-name = "gemini-openai-proxy"
-main = "proxygemini-worker.js"
-compatibility_date = "2025-09-28"
-```
+### Option 1: Using Wrangler CLI (Recommended)
 
-3. Deploy:
-```bash
-wrangler publish
-```
+1.  **Install Wrangler CLI:**
+    ```bash
+    npm install -g wrangler
+    ```
+
+2.  **Configure `wrangler.toml`:**
+    Update `wrangler.toml` with your Cloudflare `account_id`.
+    ```toml
+    account_id = "your-cloudflare-account-id"
+    name = "gemini-openai-proxy"
+    main = "proxygemini-worker.js"
+    compatibility_date = "2025-09-28"
+    ```
+
+3.  **Deploy:**
+    This command publishes the script to your Cloudflare account.
+    ```bash
+    wrangler publish
+    ```
+
+4.  **Add a Route:**
+    After deploying, go to your Cloudflare Dashboard, navigate to **Workers & Pages**, select your worker (`gemini-openai-proxy`), and go to the **Triggers** tab. Add a route that points to your Worker, for example: `https://your-domain.com/proxygemini*`.
+
+### Option 2: Using Cloudflare Dashboard
+
+1.  **Create a Worker:**
+    - Log in to your Cloudflare Dashboard.
+    - Go to **Workers & Pages**.
+    - Click **Create Application** > **Create Worker**.
+    - Name your Worker (e.g., `gemini-openai-proxy`) and click **Deploy**.
+
+2.  **Edit the Worker Code:**
+    - After deployment, click **Edit code**.
+    - Copy the contents of `proxygemini-worker.js` and paste it into the editor, replacing the default code.
+    - Click **Save and deploy**.
+
+3.  **Add a Route:**
+    - Go back to the Worker's overview page and select the **Triggers** tab.
+    - Under the **Routes** section, click **Add route**.
+    - Enter the route, e.g., `your-domain.com/proxygemini*`.
+    - Select the correct zone (your domain) for this route.
+    - Click **Add route**.
 
 ## Usage
 
